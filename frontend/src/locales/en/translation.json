@@ -1,0 +1,155 @@
+{
+  "common": {
+    "appName": "EdTech",
+    "copyright": "Copyright©2023",
+    "privacyPolicy": "Privacy Policy",
+    "cancel": "Cancel"
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome back",
+      "subtitle": "Enter your details to get sign in to your accoun.",
+      "email": "Email",
+      "emailPlaceholder": "e.g. username@kinety.com",
+      "password": "Password",
+      "passwordPlaceholder": "enter your password",
+      "forgotPassword": "Forgot Password?",
+      "continue": "Continue",
+      "signingIn": "Signing in...",
+      "dontHaveAccount": "Don't have an account?",
+      "registerNow": "Register Now",
+      "success": "Login successful!"
+    },
+    "register": {
+      "title": "Create account",
+      "subtitle": "Enter your details to create a new account",
+      "fullName": "Full Name (Optional)",
+      "fullNamePlaceholder": "John Doe",
+      "email": "Email",
+      "emailPlaceholder": "e.g. username@kinety.com",
+      "password": "Password",
+      "passwordPlaceholder": "enter your password",
+      "role": "I want to",
+      "roleUser": "Learn",
+      "roleUserDesc": "Enroll in courses",
+      "roleInstructor": "Teach",
+      "roleInstructorDesc": "Create and sell courses",
+      "createAccount": "Create account",
+      "creatingAccount": "Creating account...",
+      "alreadyHaveAccount": "Already have an account?",
+      "signIn": "Sign in",
+      "instructorVerificationNote": "After email verification, please complete your instructor profile verification."
+    },
+    "forgotPassword": {
+      "title": "Forgot your password?",
+      "subtitle": "Enter your email so that we can send you password reset link",
+      "email": "Email",
+      "emailPlaceholder": "e.g. username@kinety.com",
+      "sendEmail": "Send Email",
+      "sending": "Sending...",
+      "backToLogin": "Back to Login",
+      "emailSent": "Email Sent!",
+      "emailSentMessage": "We've sent a password reset link to your email address. Please check your inbox."
+    },
+    "resetPassword": {
+      "title": "Reset password",
+      "subtitle": "Please kindly set your new password",
+      "newPassword": "New password",
+      "newPasswordPlaceholder": "Enter new password",
+      "confirmPassword": "Re-enter password",
+      "confirmPasswordPlaceholder": "Re-enter your password",
+      "passwordStrength": "Password strength",
+      "resetPassword": "Reset Password",
+      "resetting": "Resetting...",
+      "weak": "Weak",
+      "fair": "Fair",
+      "good": "Good",
+      "excellent": "Excellent"
+    },
+    "verifyEmail": {
+      "verifying": "Verifying email...",
+      "verifyingMessage": "Please wait a moment",
+      "success": "Verification successful!",
+      "successMessage": "Email has been verified successfully!",
+      "error": "Verification failed",
+      "invalidTokenMessage": "Invalid token",
+      "redirecting": "Redirecting to login page...",
+      "backToLogin": "Back to Login",
+      "resendVerification": "Resend verification email"
+    },
+    "checkEmail": {
+      "title": "Check your email",
+      "description": "We've sent a verification link to",
+      "instructions": "Please follow these steps to verify your email:",
+      "step1": "Check your email inbox (and spam folder if needed)",
+      "step2": "Click on the verification link in the email",
+      "step3": "You'll be redirected to complete your account setup",
+      "resendButton": "Resend verification email",
+      "backToLogin": "Already verified?",
+      "loginLink": "Sign in"
+    },
+    "resendVerification": {
+      "title": "Resend verification email",
+      "subtitle": "Enter your email to receive verification link again",
+      "email": "Email address",
+      "emailPlaceholder": "you@example.com",
+      "sendVerification": "Resend verification email",
+      "sending": "Sending...",
+      "backToLogin": "Back to Login",
+      "emailSent": "Email sent!",
+      "emailSentMessage": "Verification email has been resent. Please check your inbox.",
+      "redirecting": "Redirecting to login page..."
+    }
+  },
+  "validation": {
+    "emailInvalid": "Invalid email address",
+    "passwordMin": "Password must be at least 6 characters",
+    "passwordMin8": "Password must be at least 8 characters",
+    "passwordUppercase": "Password must contain at least one uppercase letter",
+    "passwordLowercase": "Password must contain at least one lowercase letter",
+    "passwordNumber": "Password must contain at least one number",
+    "passwordSpecial": "Password must contain at least one special character",
+    "passwordsDontMatch": "Passwords don't match",
+    "roleRequired": "Please select a role"
+  },
+  "instructor": {
+    "verification": {
+      "title": "Instructor Profile Verification",
+      "subtitle": "Complete your profile to start teaching",
+      "bio": "Bio",
+      "bioPlaceholder": "Tell us about yourself...",
+      "specialization": "Specialization",
+      "specializationPlaceholder": "e.g. Healthcare, Medicine, Nursing",
+      "experience": "Experience",
+      "experiencePlaceholder": "Describe your professional experience...",
+      "education": "Education",
+      "educationPlaceholder": "List your educational background...",
+      "certificates": "Certificates",
+      "certificatesPlaceholder": "List your certifications and credentials...",
+      "submit": "Submit for Verification",
+      "submitting": "Submitting...",
+      "update": "Update Information",
+      "updating": "Updating...",
+      "status": "Verification Status",
+      "pending": "Pending Review",
+      "verified": "Verified",
+      "notVerified": "Not Verified",
+      "success": "Verification submitted successfully!",
+      "successMessage": "Your profile has been submitted for review. We'll notify you once it's verified.",
+      "updateSuccess": "Profile updated successfully!"
+    }
+  },
+  "errors": {
+    "loginFailed": "Login failed",
+    "registrationFailed": "Registration failed",
+    "sendEmailFailed": "Failed to send reset email",
+    "resetPasswordFailed": "Failed to reset password",
+    "invalidToken": "Invalid reset token",
+    "verificationFailed": "Email verification failed. Please try again.",
+    "resendVerificationFailed": "Unable to send email. Please try again later."
+  },
+  "success": {
+    "registrationSuccess": "Registration successful! Please check your email to verify your account.",
+    "resetPasswordSuccess": "Password reset successfully!"
+  }
+}

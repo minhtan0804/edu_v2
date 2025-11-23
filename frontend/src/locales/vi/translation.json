@@ -1,0 +1,155 @@
+{
+  "common": {
+    "appName": "EdTech",
+    "copyright": "Copyright©2023",
+    "privacyPolicy": "Privacy Policy",
+    "cancel": "Hủy"
+  },
+  "auth": {
+    "login": {
+      "title": "Chào mừng trở lại",
+      "subtitle": "Nhập thông tin của bạn để đăng nhập vào tài khoản.",
+      "email": "Email",
+      "emailPlaceholder": "ví dụ: username@kinety.com",
+      "password": "Mật khẩu",
+      "passwordPlaceholder": "nhập mật khẩu của bạn",
+      "forgotPassword": "Quên mật khẩu?",
+      "continue": "Tiếp tục",
+      "signingIn": "Đang đăng nhập...",
+      "dontHaveAccount": "Chưa có tài khoản?",
+      "registerNow": "Đăng ký ngay",
+      "success": "Đăng nhập thành công!"
+    },
+    "register": {
+      "title": "Tạo tài khoản",
+      "subtitle": "Nhập thông tin của bạn để tạo tài khoản mới",
+      "fullName": "Họ và tên (Tùy chọn)",
+      "fullNamePlaceholder": "Nguyễn Văn A",
+      "email": "Email",
+      "emailPlaceholder": "ví dụ: username@kinety.com",
+      "password": "Mật khẩu",
+      "passwordPlaceholder": "nhập mật khẩu của bạn",
+      "role": "Tôi muốn",
+      "roleUser": "Học",
+      "roleUserDesc": "Đăng ký các khóa học",
+      "roleInstructor": "Dạy",
+      "roleInstructorDesc": "Tạo và bán khóa học",
+      "createAccount": "Tạo tài khoản",
+      "creatingAccount": "Đang tạo tài khoản...",
+      "alreadyHaveAccount": "Đã có tài khoản?",
+      "signIn": "Đăng nhập",
+      "instructorVerificationNote": "Sau khi xác thực email, vui lòng hoàn tất xác thực hồ sơ giảng viên của bạn."
+    },
+    "forgotPassword": {
+      "title": "Quên mật khẩu?",
+      "subtitle": "Nhập email của bạn để chúng tôi gửi link đặt lại mật khẩu",
+      "email": "Email",
+      "emailPlaceholder": "ví dụ: username@kinety.com",
+      "sendEmail": "Gửi email",
+      "sending": "Đang gửi...",
+      "backToLogin": "Quay lại đăng nhập",
+      "emailSent": "Email đã được gửi!",
+      "emailSentMessage": "Chúng tôi đã gửi link đặt lại mật khẩu đến địa chỉ email của bạn. Vui lòng kiểm tra hộp thư."
+    },
+    "resetPassword": {
+      "title": "Đặt lại mật khẩu",
+      "subtitle": "Vui lòng đặt mật khẩu mới của bạn",
+      "newPassword": "Mật khẩu mới",
+      "newPasswordPlaceholder": "Nhập mật khẩu mới",
+      "confirmPassword": "Nhập lại mật khẩu",
+      "confirmPasswordPlaceholder": "Nhập lại mật khẩu của bạn",
+      "passwordStrength": "Độ mạnh mật khẩu",
+      "resetPassword": "Đặt lại mật khẩu",
+      "resetting": "Đang đặt lại...",
+      "weak": "Yếu",
+      "fair": "Trung bình",
+      "good": "Tốt",
+      "excellent": "Xuất sắc"
+    },
+    "verifyEmail": {
+      "verifying": "Đang xác thực email...",
+      "verifyingMessage": "Vui lòng đợi trong giây lát",
+      "success": "Xác thực thành công!",
+      "successMessage": "Email đã được xác thực thành công!",
+      "error": "Xác thực thất bại",
+      "invalidTokenMessage": "Token không hợp lệ",
+      "redirecting": "Đang chuyển hướng đến trang đăng nhập...",
+      "backToLogin": "Quay lại đăng nhập",
+      "resendVerification": "Gửi lại email xác thực"
+    },
+    "checkEmail": {
+      "title": "Kiểm tra email của bạn",
+      "description": "Chúng tôi đã gửi link xác thực đến",
+      "instructions": "Vui lòng làm theo các bước sau để xác thực email:",
+      "step1": "Kiểm tra hộp thư đến của bạn (và thư mục spam nếu cần)",
+      "step2": "Click vào link xác thực trong email",
+      "step3": "Bạn sẽ được chuyển hướng để hoàn tất thiết lập tài khoản",
+      "resendButton": "Gửi lại email xác thực",
+      "backToLogin": "Đã xác thực?",
+      "loginLink": "Đăng nhập"
+    },
+    "resendVerification": {
+      "title": "Gửi lại email xác thực",
+      "subtitle": "Nhập email của bạn để nhận lại link xác thực",
+      "email": "Địa chỉ email",
+      "emailPlaceholder": "you@example.com",
+      "sendVerification": "Gửi lại email xác thực",
+      "sending": "Đang gửi...",
+      "backToLogin": "Quay lại đăng nhập",
+      "emailSent": "Email đã được gửi!",
+      "emailSentMessage": "Email xác thực đã được gửi lại. Vui lòng kiểm tra hộp thư của bạn.",
+      "redirecting": "Đang chuyển hướng đến trang đăng nhập..."
+    }
+  },
+  "validation": {
+    "emailInvalid": "Địa chỉ email không hợp lệ",
+    "passwordMin": "Mật khẩu phải có ít nhất 6 ký tự",
+    "passwordMin8": "Mật khẩu phải có ít nhất 8 ký tự",
+    "passwordUppercase": "Mật khẩu phải có ít nhất một chữ cái viết hoa",
+    "passwordLowercase": "Mật khẩu phải có ít nhất một chữ cái viết thường",
+    "passwordNumber": "Mật khẩu phải có ít nhất một số",
+    "passwordSpecial": "Mật khẩu phải có ít nhất một ký tự đặc biệt",
+    "passwordsDontMatch": "Mật khẩu không khớp",
+    "roleRequired": "Vui lòng chọn vai trò"
+  },
+  "instructor": {
+    "verification": {
+      "title": "Xác thực Hồ sơ Giảng viên",
+      "subtitle": "Hoàn tất hồ sơ của bạn để bắt đầu giảng dạy",
+      "bio": "Tiểu sử",
+      "bioPlaceholder": "Giới thiệu về bản thân...",
+      "specialization": "Chuyên môn",
+      "specializationPlaceholder": "ví dụ: Y tế, Y học, Điều dưỡng",
+      "experience": "Kinh nghiệm",
+      "experiencePlaceholder": "Mô tả kinh nghiệm chuyên môn của bạn...",
+      "education": "Học vấn",
+      "educationPlaceholder": "Liệt kê trình độ học vấn của bạn...",
+      "certificates": "Chứng chỉ",
+      "certificatesPlaceholder": "Liệt kê các chứng chỉ và bằng cấp của bạn...",
+      "submit": "Gửi để Xác thực",
+      "submitting": "Đang gửi...",
+      "update": "Cập nhật Thông tin",
+      "updating": "Đang cập nhật...",
+      "status": "Trạng thái Xác thực",
+      "pending": "Đang chờ xem xét",
+      "verified": "Đã xác thực",
+      "notVerified": "Chưa xác thực",
+      "success": "Gửi xác thực thành công!",
+      "successMessage": "Hồ sơ của bạn đã được gửi để xem xét. Chúng tôi sẽ thông báo cho bạn khi đã được xác thực.",
+      "updateSuccess": "Cập nhật hồ sơ thành công!"
+    }
+  },
+  "errors": {
+    "loginFailed": "Đăng nhập thất bại",
+    "registrationFailed": "Đăng ký thất bại",
+    "sendEmailFailed": "Gửi email thất bại",
+    "resetPasswordFailed": "Đặt lại mật khẩu thất bại",
+    "invalidToken": "Token không hợp lệ",
+    "verificationFailed": "Xác thực email thất bại. Vui lòng thử lại.",
+    "resendVerificationFailed": "Không thể gửi email. Vui lòng thử lại sau."
+  },
+  "success": {
+    "registrationSuccess": "Đăng ký thành công! Vui lòng kiểm tra email để xác thực tài khoản.",
+    "resetPasswordSuccess": "Đặt lại mật khẩu thành công!"
+  }
+}
