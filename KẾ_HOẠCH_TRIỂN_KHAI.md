@@ -8,7 +8,7 @@
 
 ---
 
-## ✅ GIAI ĐOẠN 1: NỀN TẢNG BE & FE (TUẦN 1 - 3) - ĐÃ HOÀN THÀNH (95%)
+## ✅ GIAI ĐOẠN 1: NỀN TẢNG BE & FE (TUẦN 1 - 3) - ĐÃ HOÀN THÀNH (100%)
 
 ### 1.1. Backend (NestJS) Setup ✅
 
@@ -45,8 +45,13 @@
 
 - [x] **Task 1.1.6: Email Service (3h):**
   - ✅ Tích hợp Resend API cho email service.
-  - ✅ Email verification flow với token 7 ngày.
+  - ✅ Email verification flow với token 24 giờ (đã cập nhật từ 7 ngày).
   - ✅ Cron job cleanup unverified users sau 7 ngày.
+
+- [x] **Task 1.1.7: Health Check & Swagger (2h):** *(Bổ sung)*
+  - ✅ Health check endpoint (`/api/health`).
+  - ✅ Swagger API documentation (`/api-docs`).
+  - ✅ Global API prefix (`/api`).
 
 ### 1.2. Frontend (React 19) Setup ✅
 
@@ -115,6 +120,60 @@
   - ✅ ESLint + Prettier setup cho backend.
   - ✅ Import sorting với `simple-import-sort`.
   - ✅ Unused imports detection.
+
+- [x] **Task 1.2.11: React Query Integration (2h):** *(Bổ sung)*
+  - ✅ Setup React Query với QueryClient.
+  - ✅ Refactor VerifyEmailPage sử dụng useQuery (tránh duplicate calls).
+  - ✅ Configure query options (retry, staleTime, gcTime).
+
+- [x] **Task 1.2.12: Token Storage Enhancement (2h):** *(Bổ sung)*
+  - ✅ Chuyển từ localStorage sang cookies storage.
+  - ✅ Set expiration cho cookies dựa trên expiresIn từ API.
+  - ✅ Tích hợp dayjs để tính toán expiration dates.
+
+- [x] **Task 1.2.13: i18n Ally Configuration (1h):** *(Bổ sung)*
+  - ✅ Cấu hình i18n Ally extension cho VS Code.
+  - ✅ Inline translation key display.
+
+### 1.3. Admin Foundation (BE) ✅
+
+- [x] **Task 1.3.1: CategoryModule (BE) (3h):** *(Bổ sung)*
+  - ✅ CRUD operations cho Category.
+  - ✅ Admin-only access với RolesGuard.
+  - ✅ DTOs cho create/update.
+
+- [x] **Task 1.3.2: InstructorModule (BE) (4h):** *(Bổ sung)*
+  - ✅ Instructor verification system.
+  - ✅ Submit verification endpoint.
+  - ✅ Admin verify instructor endpoint.
+  - ✅ Get my verification endpoint.
+
+- [x] **Task 1.3.3: UserModule (BE) (3h):**
+  - ✅ CRUD operations cho User (Admin only).
+  - ✅ List users với pagination.
+  - ✅ Update user role.
+  - ✅ DTOs cho user management.
+  - ✅ Prevent self-update/delete.
+
+- [x] **Task 1.3.4: CourseModule (BE) (4h):**
+  - ✅ CRUD operations cho Course.
+  - ✅ Relationship với Category.
+  - ✅ Admin-only access.
+  - ✅ DTOs cho create/update.
+  - ✅ Slug validation.
+
+- [x] **Task 1.3.5: LessonModule (BE) (4h):**
+  - ✅ CRUD operations cho Lesson.
+  - ✅ Relationship với Section và Course.
+  - ✅ Position management.
+  - ✅ DTOs cho create/update.
+  - ✅ Video ID và Document URL support.
+
+- [x] **Task 1.3.6: SectionModule (BE) (3h):**
+  - ✅ CRUD operations cho Section.
+  - ✅ Relationship với Course.
+  - ✅ Position management.
+  - ✅ DTOs cho create/update.
 
 ---
 
@@ -323,17 +382,31 @@
 
 ## 📝 GHI CHÚ
 
-### Các task còn thiếu trong Giai đoạn 1:
+### Các phần bổ sung đã hoàn thành:
 
-1. **Task 1.3.1 - 1.3.5**: Admin Foundation (BE) - UserModule, CategoryModule, CourseModule, LessonModule, Admin Guard
+1. **CategoryModule**: ✅ Đã implement CRUD operations
+2. **InstructorModule**: ✅ Đã implement verification system
+3. **AppController**: ✅ Health check endpoint
+4. **React Query**: ✅ Tích hợp vào VerifyEmailPage
+5. **Cookies Storage**: ✅ Token lưu trong cookies với expiration
+6. **Dayjs Integration**: ✅ Xử lý dates/durations
+7. **i18n Ally**: ✅ Cấu hình VS Code extension
+8. **Email Verification**: ✅ Token expiration 24h (thay vì 7 ngày)
 
-   - ⏳ Cần implement tiếp theo
+### Các task đã hoàn thành trong Giai đoạn 1:
 
-2. **Helmet**: Security headers chưa được thêm vào backend
+1. **Task 1.3.3 - 1.3.6**: Admin Foundation (BE) - ✅ Đã hoàn thành
+   - ✅ UserModule: CRUD users với pagination và search
+   - ✅ CourseModule: CRUD courses với category relationship
+   - ✅ LessonModule: CRUD lessons với section relationship
+   - ✅ SectionModule: CRUD sections với course relationship
 
-   - ⚠️ Có thể thêm sau
+### Các phần tùy chọn (có thể thêm sau):
 
-3. **Shadcn/UI**: Chưa được init
+1. **Helmet**: Security headers chưa được thêm vào backend
+   - ⚠️ Có thể thêm sau khi cần
+
+2. **Shadcn/UI**: Chưa được init
    - ⚠️ Có thể thêm khi cần build UI components
 
 ### Tiến độ chi tiết:
@@ -345,7 +418,13 @@
 - ✅ Email Service: 100%
 - ✅ API Response Format: 100%
 - ✅ Code Quality (ESLint/Prettier): 100%
-- ⏳ Admin Modules: 0%
+- ✅ Health Check & Swagger: 100%
+- ✅ CategoryModule: 100%
+- ✅ InstructorModule: 100%
+- ✅ UserModule: 100%
+- ✅ CourseModule: 100%
+- ✅ LessonModule: 100%
+- ✅ SectionModule: 100%
 
 **Frontend (React 19):**
 
@@ -356,6 +435,10 @@
 - ✅ i18n: 100%
 - ✅ API Client: 100%
 - ✅ Code Quality (ESLint/Prettier): 100%
+- ✅ React Query Integration: 100%
+- ✅ Cookies Storage: 100%
+- ✅ Dayjs Integration: 100%
+- ✅ i18n Ally Configuration: 100%
 - ⏳ Admin UI: 0%
 
 ### Hướng dẫn tiếp theo:
@@ -378,3 +461,23 @@
    - Test auth flow end-to-end
    - Test email verification
    - Test refresh token logic
+
+---
+
+## 📚 TÀI LIỆU THAM KHẢO
+
+### API Documentation
+- **File**: `API_DOCUMENTATION.md`
+- **Nội dung**: Chi tiết tất cả API endpoints, request/response formats, authentication
+
+### Frontend Pages
+- **File**: `FRONTEND_PAGES.md`
+- **Nội dung**: Mô tả tất cả pages, routes, components, và features
+
+### Application Flow
+- **File**: `APPLICATION_FLOW.md`
+- **Nội dung**: Mô tả chi tiết các luồng chính trong ứng dụng
+
+### Authentication Flow
+- **File**: `AUTH_FLOW.md`
+- **Nội dung**: Chi tiết về authentication, JWT, roles, security

@@ -1,15 +1,4 @@
-// Common Types
-
-// User Role
-export type UserRole = "USER" | "INSTRUCTOR" | "ADMIN";
-
-// User
-export interface User {
-  id: string;
-  email: string;
-  fullName?: string;
-  role: UserRole;
-}
+import { User } from "@/interfaces/auth";
 
 /**
  * 1. Standard Error Structure

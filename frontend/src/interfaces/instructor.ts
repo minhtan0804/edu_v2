@@ -37,10 +37,10 @@ export interface InstructorVerificationData {
 }
 
 // Instructor Verification Response Types
-export type SubmitVerificationResponse = ApiResponse<InstructorVerificationData>;
+export type SubmitVerificationResponse =
+  ApiResponse<InstructorVerificationData>;
 export type GetMyVerificationResponse = ApiResponse<InstructorVerificationData>;
 export type GetAllPendingVerificationsResponse = ApiResponse<
   InstructorVerificationData[]
 >;
 export type VerifyInstructorResponse = ApiResponse<InstructorVerificationData>;
-

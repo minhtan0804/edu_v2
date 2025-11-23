@@ -1,6 +1,7 @@
 import React from "react";
 import type { RouteObject } from "react-router-dom";
 
+import AdminRoute from "@/components/AdminRoute";
 import PrivateRoute from "@/components/PrivateRoute";
 import { PATHS } from "@/constants/common";
 import NotFound from "@/pages/NotFound";
@@ -8,6 +9,7 @@ import NotFound from "@/pages/NotFound";
 const AuthenticatedLayout = React.lazy(
   () => import("@/layouts/AuthenticatedLayout")
 );
+const AdminLayout = React.lazy(() => import("@/layouts/AdminLayout"));
 const AuthLayout = React.lazy(() => import("@/layouts/AuthLayout"));
 
 const Home = React.lazy(() => import("@/pages/HomePage"));
@@ -31,6 +33,32 @@ const InstructorVerification = React.lazy(
   () => import("@/pages/InstructorVerificationPage")
 );
 
+// Admin pages
+const AdminDashboard = React.lazy(
+  () => import("@/pages/admin/AdminDashboardPage")
+);
+const AdminCategories = React.lazy(
+  () => import("@/pages/admin/AdminCategoriesPage")
+);
+const AdminCourses = React.lazy(() => import("@/pages/admin/AdminCoursesPage"));
+
+// Admin routes configuration
+const adminRoutes: RouteObject[] = [
+  {
+    index: true,
+    element: <AdminDashboard />,
+  },
+  {
+    path: "categories",
+    element: <AdminCategories />,
+  },
+  {
+    path: "courses",
+    element: <AdminCourses />,
+  },
+  // Admin routes will be added here
+];
+
 export const protectedRouter: RouteObject[] = [
   {
     path: PATHS.BASE,
@@ -51,6 +79,17 @@ export const protectedRouter: RouteObject[] = [
       },
       // Add more protected routes here
     ],
+  },
+  // Admin routes
+  {
+    path: PATHS.ADMIN,
+    element: (
+      <AdminRoute>
+        <AdminLayout />
+      </AdminRoute>
+    ),
+    errorElement: <NotFound />,
+    children: adminRoutes,
   },
 ];
 

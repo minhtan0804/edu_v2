@@ -5,16 +5,12 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { toast } from "react-toastify";
 import { z } from "zod";
 
-import { forgotPassword } from "@/api/auth";
+import { Button, Input } from "@/components/ui";
+import { Typography } from "@/components/ui";
 import { PATHS } from "@/constants/common";
-import {
-  getErrorMessage,
-  isErrorResponse,
-  isSuccessResponse,
-} from "@/utils/api-helpers";
+import { useForgotPassword } from "@/hooks/useAuth";
 
 type ForgotPasswordForm = z.infer<
   ReturnType<typeof createForgotPasswordSchema>
@@ -33,30 +29,20 @@ export default function ForgotPasswordPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<ForgotPasswordForm>({
     resolver: zodResolver(forgotPasswordSchema),
   });
 
-  const onSubmit = async (data: ForgotPasswordForm) => {
-    try {
-      const response = await forgotPassword(data);
+  const { mutate: forgotPasswordFn, isPending: isSubmitting } =
+    useForgotPassword();
 
-      if (isSuccessResponse(response)) {
-        toast.success(
-          response.data.message || t("auth.forgotPassword.emailSentMessage")
-        );
+  const onSubmit = (data: ForgotPasswordForm) => {
+    forgotPasswordFn(data, {
+      onSuccess: () => {
         setIsSubmitted(true);
-      } else if (isErrorResponse(response)) {
-        toast.error(getErrorMessage(response));
-      }
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        toast.error(error.message);
-      } else {
-        toast.error(t("errors.sendEmailFailed"));
-      }
-    }
+      },
+    });
   };
 
   if (isSubmitted) {
@@ -71,9 +57,9 @@ export default function ForgotPasswordPage() {
                   E
                 </span>
               </div>
-              <span className="text-lg sm:text-xl font-bold text-neutral-900">
+              <Typography variant="h6" className="text-lg sm:text-xl">
                 {t("common.appName")}
-              </span>
+              </Typography>
             </div>
           </div>
         </header>
@@ -84,12 +70,12 @@ export default function ForgotPasswordPage() {
             <div className="w-16 h-16 bg-success-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <CheckCircle className="w-8 h-8 text-success-600" />
             </div>
-            <h1 className="text-3xl sm:text-4xl font-bold text-neutral-900 mb-2">
+            <Typography variant="h1" className="mb-2">
               {t("auth.forgotPassword.emailSent")}
-            </h1>
-            <p className="text-sm sm:text-base text-neutral-600 mb-6">
+            </Typography>
+            <Typography variant="muted" className="mb-6">
               {t("auth.forgotPassword.emailSentMessage")}
-            </p>
+            </Typography>
             <Link
               to={PATHS.LOGIN}
               className="inline-block text-primary-500 hover:text-primary-600 font-medium text-sm"
@@ -101,11 +87,11 @@ export default function ForgotPasswordPage() {
 
         {/* Footer */}
         <footer className="w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
-          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-neutral-500">
+          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-muted-foreground">
             <span>{t("common.copyright")}</span>
             <Link
               to="/privacy-policy"
-              className="hover:text-neutral-700 transition-colors"
+              className="hover:text-foreground transition-colors"
             >
               {t("common.privacyPolicy")}
             </Link>
@@ -124,9 +110,9 @@ export default function ForgotPasswordPage() {
             <div className="w-8 h-8 sm:w-10 sm:h-10 bg-primary-500 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-lg sm:text-xl">E</span>
             </div>
-            <span className="text-lg sm:text-xl font-bold text-neutral-900">
+            <Typography variant="h6" className="text-lg sm:text-xl">
               {t("common.appName")}
-            </span>
+            </Typography>
           </div>
           <Link
             to={PATHS.LOGIN}
@@ -146,12 +132,12 @@ export default function ForgotPasswordPage() {
           </div>
 
           {/* Title */}
-          <h1 className="text-3xl sm:text-4xl font-bold text-neutral-900 mb-2 text-center">
+          <Typography variant="h1" className="mb-2 text-center">
             {t("auth.forgotPassword.title")}
-          </h1>
-          <p className="text-sm sm:text-base text-neutral-600 mb-8 text-center">
+          </Typography>
+          <Typography variant="muted" className="mb-8 text-center">
             {t("auth.forgotPassword.subtitle")}
-          </p>
+          </Typography>
 
           {/* Form */}
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
@@ -159,48 +145,49 @@ export default function ForgotPasswordPage() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-neutral-700 mb-2"
+                className="block text-sm font-medium text-foreground mb-2"
               >
                 {t("auth.forgotPassword.email")}
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-400" />
-                <input
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground z-10" />
+                <Input
                   {...register("email")}
                   type="email"
                   id="email"
-                  className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+                  className="pl-10"
                   placeholder={t("auth.forgotPassword.emailPlaceholder")}
                 />
               </div>
               {errors.email && (
-                <p className="mt-1 text-sm text-red-600">
+                <Typography variant="small" className="mt-1 text-destructive">
                   {errors.email.message}
-                </p>
+                </Typography>
               )}
             </div>
 
             {/* Submit Button */}
-            <button
+            <Button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-primary-500 hover:bg-primary-600 text-white font-medium py-3 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full"
+              size="lg"
             >
               {isSubmitting
                 ? t("auth.forgotPassword.sending")
                 : t("auth.forgotPassword.sendEmail")}
-            </button>
+            </Button>
           </form>
         </div>
       </main>
 
       {/* Footer */}
       <footer className="w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-neutral-500">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-muted-foreground">
           <span>{t("common.copyright")}</span>
           <Link
             to="/privacy-policy"
-            className="hover:text-neutral-700 transition-colors"
+            className="hover:text-foreground transition-colors"
           >
             {t("common.privacyPolicy")}
           </Link>

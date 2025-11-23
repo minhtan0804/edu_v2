@@ -93,13 +93,12 @@ instance.interceptors.response.use(
         if (refreshToken) {
           refreshTokenPromise = instanceWithoutInterceptors
             .post<RefreshTokenResponse>("/auth/refresh", { refreshToken })
-            .then((response) => {
-              useAuthStore.getState().setCredentials({
+            .then(async (response) => {
+              await useAuthStore.getState().setCredentials({
                 accessToken: response.data.accessToken,
                 refreshToken: response.data.refreshToken,
                 expiresIn: response.data.expiresIn,
                 refreshExpiresIn: response.data.refreshExpiresIn,
-                user: response.data.user,
               });
               return response.data.accessToken;
             })

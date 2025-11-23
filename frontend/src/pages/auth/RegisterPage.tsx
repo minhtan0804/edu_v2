@@ -3,19 +3,15 @@ import type { TFunction } from "i18next";
 import { Lock, Mail, User } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { z } from "zod";
 
-import { register as registerUser } from "@/api/auth";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { Button, Input, Typography } from "@/components/ui";
 import { PATHS } from "@/constants/common";
-import {
-  getErrorDetails,
-  getErrorMessage,
-  isErrorResponse,
-  isSuccessResponse,
-} from "@/utils/api-helpers";
+import { useRegister } from "@/hooks/useAuth";
+import { getErrorMessage } from "@/utils/api-helpers";
 
 type RegisterForm = z.infer<ReturnType<typeof createRegisterSchema>>;
 
@@ -29,49 +25,45 @@ function createRegisterSchema(t: TFunction<"translation", undefined>) {
 
 export default function RegisterPage() {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const registerSchema = createRegisterSchema(t);
   const {
     register,
     handleSubmit,
     setError,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<RegisterForm>({
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit = async (data: RegisterForm) => {
-    try {
-      const response = await registerUser(data);
+  const { mutate: registerUser, isPending: isSubmitting } = useRegister();
 
-      if (isSuccessResponse(response)) {
-        // TypeScript knows response.data exists and has type RegisterResponseData
-        const responseData = response.data;
-        toast.success(responseData.message || t("success.registrationSuccess"));
-        // Navigate to check email page with email
-        navigate("/check-email", {
-          state: { email: data.email },
-        });
-      } else if (isErrorResponse(response)) {
-        const errorMessage = getErrorMessage(response);
-        const errorDetails = getErrorDetails(response);
-
-        toast.error(errorMessage);
-
-        // Set field errors if validation details exist
-        if (errorDetails) {
-          Object.entries(errorDetails).forEach(([field, message]) => {
-            setError(field as keyof RegisterForm, { message });
-          });
+  const onSubmit = (data: RegisterForm) => {
+    registerUser(data, {
+      onError: (error: unknown) => {
+        // Handle validation errors
+        if (
+          error &&
+          typeof error === "object" &&
+          "response" in error &&
+          error.response &&
+          typeof error.response === "object" &&
+          "data" in error.response
+        ) {
+          const errorData = error.response.data as {
+            error?: { details?: Record<string, string> };
+          };
+          if (errorData?.error?.details) {
+            Object.entries(errorData.error.details).forEach(
+              ([field, message]) => {
+                setError(field as keyof RegisterForm, { message });
+              }
+            );
+          } else {
+            toast.error(getErrorMessage(errorData as any));
+          }
         }
-      }
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        toast.error(error.message);
-      } else {
-        toast.error(t("errors.registrationFailed"));
-      }
-    }
+      },
+    });
   };
 
   return (
@@ -84,16 +76,16 @@ export default function RegisterPage() {
             <div className="w-8 h-8 sm:w-10 sm:h-10 bg-primary-500 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-lg sm:text-xl">E</span>
             </div>
-            <span className="text-lg sm:text-xl font-bold text-neutral-900">
+            <Typography variant="h6" className="text-lg sm:text-xl">
               {t("common.appName")}
-            </span>
+            </Typography>
           </div>
 
           {/* Right side: Language Switcher and Login Link */}
           <div className="flex items-center gap-4">
             <LanguageSwitcher />
             <div className="text-sm sm:text-base">
-              <span className="text-neutral-600">
+              <span className="text-muted-foreground">
                 {t("auth.register.alreadyHaveAccount")}{" "}
               </span>
               <Link
@@ -111,12 +103,12 @@ export default function RegisterPage() {
       <main className="flex-1 flex items-center justify-center px-4 sm:px-6 py-8 sm:py-12">
         <div className="w-full max-w-md">
           {/* Title */}
-          <h1 className="text-3xl sm:text-4xl font-bold text-neutral-900 mb-2">
+          <Typography variant="h1" className="mb-2">
             {t("auth.register.title")}
-          </h1>
-          <p className="text-sm sm:text-base text-neutral-600 mb-8">
+          </Typography>
+          <Typography variant="muted" className="mb-8">
             {t("auth.register.subtitle")}
-          </p>
+          </Typography>
 
           {/* Form */}
           <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
@@ -124,17 +116,17 @@ export default function RegisterPage() {
             <div>
               <label
                 htmlFor="fullName"
-                className="block text-sm font-medium text-neutral-700 mb-2"
+                className="block text-sm font-medium text-foreground mb-2"
               >
                 {t("auth.register.fullName")}
               </label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-400" />
-                <input
+                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground z-10" />
+                <Input
                   {...register("fullName")}
                   type="text"
                   id="fullName"
-                  className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+                  className="pl-10"
                   placeholder={t("auth.register.fullNamePlaceholder")}
                 />
               </div>
@@ -144,24 +136,24 @@ export default function RegisterPage() {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-neutral-700 mb-2"
+                className="block text-sm font-medium text-foreground mb-2"
               >
                 {t("auth.register.email")}
               </label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-400" />
-                <input
+                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground z-10" />
+                <Input
                   {...register("email")}
                   type="email"
                   id="email"
-                  className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+                  className="pl-10"
                   placeholder={t("auth.register.emailPlaceholder")}
                 />
               </div>
               {errors.email && (
-                <p className="mt-1 text-sm text-red-600">
+                <Typography variant="small" className="mt-1 text-destructive">
                   {errors.email.message}
-                </p>
+                </Typography>
               )}
             </div>
 
@@ -169,48 +161,49 @@ export default function RegisterPage() {
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-neutral-700 mb-2"
+                className="block text-sm font-medium text-foreground mb-2"
               >
                 {t("auth.register.password")}
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-neutral-400" />
-                <input
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-muted-foreground z-10" />
+                <Input
                   {...register("password")}
                   type="password"
                   id="password"
-                  className="w-full pl-10 pr-4 py-3 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+                  className="pl-10"
                   placeholder={t("auth.register.passwordPlaceholder")}
                 />
               </div>
               {errors.password && (
-                <p className="mt-1 text-sm text-red-600">
+                <Typography variant="small" className="mt-1 text-destructive">
                   {errors.password.message}
-                </p>
+                </Typography>
               )}
             </div>
 
             {/* Submit Button */}
-            <button
+            <Button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-primary-500 hover:bg-primary-600 text-white font-medium py-3 px-4 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full"
+              size="lg"
             >
               {isSubmitting
                 ? t("auth.register.creatingAccount")
                 : t("auth.register.createAccount")}
-            </button>
+            </Button>
           </form>
         </div>
       </main>
 
       {/* Footer */}
       <footer className="w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-neutral-500">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-muted-foreground">
           <span>{t("common.copyright")}</span>
           <Link
             to="/privacy-policy"
-            className="hover:text-neutral-700 transition-colors"
+            className="hover:text-foreground transition-colors"
           >
             {t("common.privacyPolicy")}
           </Link>

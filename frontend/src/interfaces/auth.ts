@@ -1,4 +1,15 @@
-import type { ApiResponse, User } from "./common";
+import type { ApiResponse } from "./common";
+
+// User Role
+export type UserRole = "USER" | "INSTRUCTOR" | "ADMIN";
+
+// User
+export interface User {
+  id: string;
+  email: string;
+  fullName?: string;
+  role: UserRole;
+}
 
 // Auth Request Types
 export interface LoginRequest {
@@ -39,14 +50,12 @@ export interface LoginResponseData {
 }
 
 export interface RegisterResponseData {
-  user: {
-    id: string;
-    email: string;
-    fullName: string | null;
-    emailVerified: boolean;
-    createdAt: string;
-  };
+  user: User & { emailVerified: boolean; createdAt: string };
   message: string;
+}
+
+export interface GetProfileResponseData {
+  user: User & { emailVerified: boolean; createdAt: string };
 }
 
 export interface MessageResponseData {
@@ -60,3 +69,4 @@ export type ForgotPasswordResponse = ApiResponse<MessageResponseData>;
 export type ResetPasswordResponse = ApiResponse<MessageResponseData>;
 export type VerifyEmailResponse = ApiResponse<MessageResponseData>;
 export type ResendVerificationResponse = ApiResponse<MessageResponseData>;
+export type GetProfileResponse = ApiResponse<GetProfileResponseData>;

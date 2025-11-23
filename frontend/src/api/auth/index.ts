@@ -2,6 +2,7 @@ import { request } from "@/api/axios";
 import type {
   ForgotPasswordRequest,
   ForgotPasswordResponse,
+  GetProfileResponse,
   LoginRequest,
   LoginResponse,
   RegisterRequest,
@@ -66,4 +67,8 @@ export const resendVerification = (
     data,
     { skipAuth: true }
   );
+};
+
+export const getProfile = (): Promise<GetProfileResponse> => {
+  return request.get<GetProfileResponse>(`${AUTH_API_BASE}/me`);
 };

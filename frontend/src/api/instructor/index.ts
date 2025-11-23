@@ -1,7 +1,6 @@
 export {
-  submitVerification,
-  getMyVerification,
   getAllPendingVerifications,
+  getMyVerification,
+  submitVerification,
   verifyInstructor,
 } from "./instructor.service";
-

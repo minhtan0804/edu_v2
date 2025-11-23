@@ -207,6 +207,29 @@ export class AuthService {
     }
   }
 
+  async getProfile(userId: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        email: true,
+        fullName: true,
+        role: true,
+        emailVerified: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException("User not found");
+    }
+
+    return {
+      user,
+    };
+  }
+
   async refreshToken(refreshToken: string) {
     try {
       // Verify refresh token with refresh secret

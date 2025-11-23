@@ -3,7 +3,12 @@
     "appName": "EdTech",
     "copyright": "Copyright©2023",
     "privacyPolicy": "Privacy Policy",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "loading": "Loading...",
+    "saving": "Saving...",
+    "create": "Create",
+    "update": "Update"
   },
   "auth": {
     "login": {
@@ -110,7 +115,9 @@
     "passwordNumber": "Password must contain at least one number",
     "passwordSpecial": "Password must contain at least one special character",
     "passwordsDontMatch": "Passwords don't match",
-    "roleRequired": "Please select a role"
+    "roleRequired": "Please select a role",
+    "required": "This field is required",
+    "slugInvalid": "Slug must be lowercase letters, numbers, and hyphens only"
   },
   "instructor": {
     "verification": {
@@ -146,10 +153,90 @@
     "resetPasswordFailed": "Failed to reset password",
     "invalidToken": "Invalid reset token",
     "verificationFailed": "Email verification failed. Please try again.",
-    "resendVerificationFailed": "Unable to send email. Please try again later."
+    "resendVerificationFailed": "Unable to send email. Please try again later.",
+    "loadFailed": "Failed to load data",
+    "createFailed": "Failed to create",
+    "updateFailed": "Failed to update",
+    "deleteFailed": "Failed to delete",
+    "generic": "An error occurred. Please try again."
   },
   "success": {
     "registrationSuccess": "Registration successful! Please check your email to verify your account.",
     "resetPasswordSuccess": "Password reset successfully!"
+  },
+  "admin": {
+    "nav": {
+      "dashboard": "Dashboard",
+      "categories": "Categories",
+      "courses": "Courses",
+      "users": "Users",
+      "settings": "Settings",
+      "logout": "Logout"
+    },
+    "header": {
+      "welcome": "Welcome, Admin"
+    },
+    "dashboard": {
+      "title": "Admin Dashboard",
+      "overview": "Overview",
+      "totalUsers": "Total Users",
+      "totalCourses": "Total Courses",
+      "totalCategories": "Total Categories",
+      "recentActivity": "Recent Activity"
+    },
+    "categories": {
+      "subtitle": "Manage course categories",
+      "addNew": "Add New Category",
+      "createCategory": "Create Category",
+      "editCategory": "Edit Category",
+      "createSuccess": "Category created successfully",
+      "updateSuccess": "Category updated successfully",
+      "deleteSuccess": "Category deleted successfully",
+      "deleteConfirm": "Are you sure you want to delete this category?",
+      "noCategories": "No categories found",
+      "edit": "Edit",
+      "delete": "Delete",
+      "form": {
+        "name": "Name",
+        "slug": "Slug",
+        "description": "Description"
+      },
+      "table": {
+        "name": "Name",
+        "slug": "Slug",
+        "description": "Description",
+        "createdAt": "Created At",
+        "actions": "Actions"
+      }
+    },
+    "courses": {
+      "subtitle": "Manage courses",
+      "addNew": "Add New Course",
+      "createCourse": "Create Course",
+      "editCourse": "Edit Course",
+      "createSuccess": "Course created successfully",
+      "updateSuccess": "Course updated successfully",
+      "deleteSuccess": "Course deleted successfully",
+      "deleteConfirm": "Are you sure you want to delete this course?",
+      "noCourses": "No courses found",
+      "view": "View",
+      "edit": "Edit",
+      "delete": "Delete",
+      "form": {
+        "title": "Title",
+        "slug": "Slug",
+        "category": "Category",
+        "selectCategory": "Select a category",
+        "description": "Description",
+        "price": "Price",
+        "thumbnail": "Thumbnail URL"
+      },
+      "table": {
+        "title": "Title",
+        "category": "Category",
+        "price": "Price",
+        "actions": "Actions"
+      }
+    }
   }
 }

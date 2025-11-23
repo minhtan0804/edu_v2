@@ -6,10 +6,14 @@ import {
   HttpStatus,
   Post,
   Query,
+  Request,
+  UnauthorizedException,
+  UseGuards,
 } from "@nestjs/common";
-import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 import { AuthService } from "./auth.service";
+import { JwtAuthGuard } from "./guards/jwt-auth.guard";
 import { LoginDto } from "./dto/login.dto";
 import { RefreshTokenDto } from "./dto/refresh-token.dto";
 import { RegisterDto } from "./dto/register.dto";
@@ -121,5 +125,36 @@ export class AuthController {
   })
   async resendVerification(@Body() resendDto: ResendVerificationDto) {
     return this.authService.resendVerificationEmail(resendDto.email);
+  }
+
+  @Get("me")
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: "Get current user profile" })
+  @ApiResponse({
+    status: 200,
+    description: "User profile retrieved successfully",
+    schema: {
+      example: {
+        id: "clxxx",
+        email: "user@example.com",
+        fullName: "John Doe",
+        role: "USER",
+        emailVerified: true,
+        createdAt: "2024-01-01T00:00:00.000Z",
+        updatedAt: "2024-01-01T00:00:00.000Z",
+      },
+    },
+  })
+  @ApiResponse({
+    status: 401,
+    description: "Unauthorized - Invalid or missing token",
+  })
+  async getProfile(@Request() req: any) {
+    const userId = req.user?.userId;
+    if (!userId) {
+      throw new UnauthorizedException("User ID not found in request");
+    }
+    return this.authService.getProfile(userId);
   }
 }

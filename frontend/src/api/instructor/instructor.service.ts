@@ -19,12 +19,11 @@ export const submitVerification = (
   );
 };
 
-export const getMyVerification =
-  (): Promise<GetMyVerificationResponse> => {
-    return request.get<GetMyVerificationResponse>(
-      `${INSTRUCTOR_API_BASE}/verification/my`
-    );
-  };
+export const getMyVerification = (): Promise<GetMyVerificationResponse> => {
+  return request.get<GetMyVerificationResponse>(
+    `${INSTRUCTOR_API_BASE}/verification/my`
+  );
+};
 
 export const getAllPendingVerifications =
   (): Promise<GetAllPendingVerificationsResponse> => {
@@ -41,4 +40,3 @@ export const verifyInstructor = (
     data
   );
 };
-

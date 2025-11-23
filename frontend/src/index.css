@@ -4,48 +4,72 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 24.6 95% 53.1%; /* Orange #F97316 */
-    --primary-foreground: 0 0% 100%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 24.6 95% 53.1%; /* Orange ring */
-    --radius: 0.75rem; /* Slightly more rounded */
+    /* Background & Foreground */
+    --background: 0 0% 100%; /* White #FFFFFF */
+    --foreground: 0 0% 0%; /* Black #000000 */
+
+    /* Primary Colors (Brand Orange) */
+    --primary: 18 100% 59%; /* #FF782D - Default */
+    --primary-foreground: 0 0% 100%; /* White text on primary */
+
+    /* Secondary (Hover state) */
+    --secondary: 36 100% 59%; /* #FFAB2D - Hover */
+    --secondary-foreground: 0 0% 100%; /* White text on secondary */
+
+    /* Muted (Neutral Grays) */
+    --muted: 0 0% 96%; /* White grey #F5F5F5 - Subtle backgrounds */
+    --muted-foreground: 0 0% 33%; /* Dark grey #555555 - Secondary text */
+
+    /* Accent */
+    --accent: 0 0% 96%; /* White grey #F5F5F5 */
+    --accent-foreground: 0 0% 0%; /* Black */
+
+    /* Destructive (Danger/Error) */
+    --destructive: 7 100% 44%; /* #E02200 - Danger red */
+    --destructive-foreground: 0 0% 100%; /* White text on destructive */
+
+    /* Card & Popover */
+    --card: 0 0% 100%; /* White #FFFFFF */
+    --card-foreground: 0 0% 0%; /* Black #000000 */
+    --popover: 0 0% 100%; /* White #FFFFFF */
+    --popover-foreground: 0 0% 0%; /* Black #000000 */
+
+    /* Borders & Inputs */
+    --border: 0 0% 92%; /* Light grey #EAEAEA */
+    --input: 0 0% 92%; /* Light grey #EAEAEA */
+    --ring: 18 100% 59%; /* Primary orange #FF782D - Focus ring */
+
+    /* Border Radius */
+    --radius: 0.5rem; /* 8px - Based on input/card border radius from design */
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --background: 0 0% 0%; /* Black #000000 */
+    --foreground: 0 0% 100%; /* White #FFFFFF */
+
+    --primary: 18 100% 59%; /* #FF782D */
+    --primary-foreground: 0 0% 100%; /* White */
+
+    --secondary: 36 100% 59%; /* #FFAB2D */
+    --secondary-foreground: 0 0% 0%; /* Black */
+
+    --muted: 0 0% 20%; /* Dark gray for dark mode */
+    --muted-foreground: 0 0% 62%; /* Grey #9D9D9D */
+
+    --accent: 0 0% 20%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 7 100% 44%; /* #E02200 */
+    --destructive-foreground: 0 0% 100%;
+
+    --card: 0 0% 0%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 0%;
+    --popover-foreground: 0 0% 100%;
+
+    --border: 0 0% 33%; /* Dark grey #555555 */
+    --input: 0 0% 33%;
+    --ring: 18 100% 59%;
   }
 }
 
@@ -56,7 +80,8 @@
   body {
     @apply bg-background text-foreground;
     font-family:
-      "Outfit",
+      "Jost",
+      "Exo",
       -apple-system,
       BlinkMacSystemFont,
       "Segoe UI",

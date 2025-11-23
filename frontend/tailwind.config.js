@@ -19,7 +19,8 @@ export default {
     extend: {
       fontFamily: {
         sans: [
-          "Outfit",
+          "Jost",
+          "Exo",
           "-apple-system",
           "BlinkMacSystemFont",
           "Segoe UI",
@@ -32,51 +33,47 @@ export default {
           "Helvetica Neue",
           "sans-serif",
         ],
+        heading: [
+          "Exo",
+          "Jost",
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "Segoe UI",
+          "Roboto",
+          "sans-serif",
+        ],
       },
       colors: {
-        // Design System Colors (Orange/Peach Theme)
+        // shadcn/ui semantic colors (mapped to CSS variables)
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
         primary: {
           50: "#FFF7ED",
           100: "#FFEDD5",
           200: "#FED7AA",
           300: "#FDBA74",
           400: "#FB923C",
-          500: "#F97316", // Main orange
-          600: "#EA580C",
-          700: "#C2410C",
-          800: "#9A3412",
+          500: "#FF782D", // Main orange from Figma (Default)
+          600: "#FFAB2D", // Hover state
+          700: "#F8620E", // Pressed state
+          800: "#C2410C",
           900: "#7C2D12",
-          DEFAULT: "#F97316",
-          foreground: "#FFFFFF",
+          DEFAULT: "hsl(var(--primary))", // Uses CSS variable
+          foreground: "hsl(var(--primary-foreground))",
+          hover: "#FFAB2D", // Hover state (alias)
+          pressed: "#F8620E", // Pressed state (alias)
         },
-        background: {
-          light: "#FFF5E6",
-          default: "#FFF7ED",
-          dark: "#FED7AA",
-          DEFAULT: "#FFF7ED",
-        },
-        success: {
-          50: "#F0FDF4",
-          100: "#DCFCE7",
-          200: "#BBF7D0",
-          300: "#86EFAC",
-          400: "#4ADE80",
-          500: "#22C55E",
-          600: "#16A34A",
-          DEFAULT: "#22C55E",
-        },
-        // Legacy shadcn colors (for compatibility)
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        foreground: "hsl(var(--foreground))",
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
-        },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
         },
         muted: {
           DEFAULT: "hsl(var(--muted))",
@@ -86,13 +83,46 @@ export default {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
         },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
         },
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        // Design System Colors (Figma Palette)
+        // Primary Orange Scale
+        orange: {
+          DEFAULT: "#FF782D", // Primary default
+          hover: "#FFAB2D", // Hover state
+          pressed: "#F8620E", // Pressed state
+        },
+        // Neutral Grays
+        gray: {
+          dark: "#555555", // Dark grey
+          DEFAULT: "#9D9D9D", // Grey
+          light: "#EAEAEA", // Light grey
+          "white-grey": "#F5F5F5", // White grey
+        },
+        // Status Colors
+        info: {
+          DEFAULT: "#2580D5", // Blue
+        },
+        success: {
+          DEFAULT: "#55BE24", // Green
+        },
+        warning: {
+          DEFAULT: "#F6B40A", // Orange/Yellow
+        },
+        danger: {
+          DEFAULT: "#E02200", // Red (also #F51A1A in some variants)
+        },
+        // Input specific colors
+        input: {
+          border: "#9D9D9D", // Default border color
+          borderFocus: "#FF782D", // Focus border color (primary)
+          placeholder: "#9D9D9D", // Placeholder text color
+          DEFAULT: "hsl(var(--input))", // Legacy compatibility
         },
       },
       borderRadius: {

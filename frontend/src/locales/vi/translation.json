@@ -3,7 +3,12 @@
     "appName": "EdTech",
     "copyright": "Copyright©2023",
     "privacyPolicy": "Privacy Policy",
-    "cancel": "Hủy"
+    "cancel": "Hủy",
+    "confirm": "Xác nhận",
+    "loading": "Đang tải...",
+    "saving": "Đang lưu...",
+    "create": "Tạo",
+    "update": "Cập nhật"
   },
   "auth": {
     "login": {
@@ -110,7 +115,9 @@
     "passwordNumber": "Mật khẩu phải có ít nhất một số",
     "passwordSpecial": "Mật khẩu phải có ít nhất một ký tự đặc biệt",
     "passwordsDontMatch": "Mật khẩu không khớp",
-    "roleRequired": "Vui lòng chọn vai trò"
+    "roleRequired": "Vui lòng chọn vai trò",
+    "required": "Trường này là bắt buộc",
+    "slugInvalid": "Slug chỉ được chứa chữ thường, số và dấu gạch ngang"
   },
   "instructor": {
     "verification": {
@@ -146,10 +153,90 @@
     "resetPasswordFailed": "Đặt lại mật khẩu thất bại",
     "invalidToken": "Token không hợp lệ",
     "verificationFailed": "Xác thực email thất bại. Vui lòng thử lại.",
-    "resendVerificationFailed": "Không thể gửi email. Vui lòng thử lại sau."
+    "resendVerificationFailed": "Không thể gửi email. Vui lòng thử lại sau.",
+    "loadFailed": "Tải dữ liệu thất bại",
+    "createFailed": "Tạo thất bại",
+    "updateFailed": "Cập nhật thất bại",
+    "deleteFailed": "Xóa thất bại",
+    "generic": "Đã xảy ra lỗi. Vui lòng thử lại."
   },
   "success": {
     "registrationSuccess": "Đăng ký thành công! Vui lòng kiểm tra email để xác thực tài khoản.",
     "resetPasswordSuccess": "Đặt lại mật khẩu thành công!"
+  },
+  "admin": {
+    "nav": {
+      "dashboard": "Bảng điều khiển",
+      "categories": "Danh mục",
+      "courses": "Khóa học",
+      "users": "Người dùng",
+      "settings": "Cài đặt",
+      "logout": "Đăng xuất"
+    },
+    "header": {
+      "welcome": "Chào mừng, Quản trị viên"
+    },
+    "dashboard": {
+      "title": "Bảng điều khiển Quản trị",
+      "overview": "Tổng quan",
+      "totalUsers": "Tổng người dùng",
+      "totalCourses": "Tổng khóa học",
+      "totalCategories": "Tổng danh mục",
+      "recentActivity": "Hoạt động gần đây"
+    },
+    "categories": {
+      "subtitle": "Quản lý danh mục khóa học",
+      "addNew": "Thêm danh mục mới",
+      "createCategory": "Tạo danh mục",
+      "editCategory": "Chỉnh sửa danh mục",
+      "createSuccess": "Tạo danh mục thành công",
+      "updateSuccess": "Cập nhật danh mục thành công",
+      "deleteSuccess": "Xóa danh mục thành công",
+      "deleteConfirm": "Bạn có chắc chắn muốn xóa danh mục này?",
+      "noCategories": "Không tìm thấy danh mục nào",
+      "edit": "Chỉnh sửa",
+      "delete": "Xóa",
+      "form": {
+        "name": "Tên",
+        "slug": "Slug",
+        "description": "Mô tả"
+      },
+      "table": {
+        "name": "Tên",
+        "slug": "Slug",
+        "description": "Mô tả",
+        "createdAt": "Ngày tạo",
+        "actions": "Thao tác"
+      }
+    },
+    "courses": {
+      "subtitle": "Quản lý khóa học",
+      "addNew": "Thêm khóa học mới",
+      "createCourse": "Tạo khóa học",
+      "editCourse": "Chỉnh sửa khóa học",
+      "createSuccess": "Tạo khóa học thành công",
+      "updateSuccess": "Cập nhật khóa học thành công",
+      "deleteSuccess": "Xóa khóa học thành công",
+      "deleteConfirm": "Bạn có chắc chắn muốn xóa khóa học này?",
+      "noCourses": "Không tìm thấy khóa học nào",
+      "view": "Xem",
+      "edit": "Chỉnh sửa",
+      "delete": "Xóa",
+      "form": {
+        "title": "Tiêu đề",
+        "slug": "Slug",
+        "category": "Danh mục",
+        "selectCategory": "Chọn danh mục",
+        "description": "Mô tả",
+        "price": "Giá",
+        "thumbnail": "URL hình ảnh"
+      },
+      "table": {
+        "title": "Tiêu đề",
+        "category": "Danh mục",
+        "price": "Giá",
+        "actions": "Thao tác"
+      }
+    }
   }
 }

@@ -7,12 +7,7 @@ import { useTranslation } from "react-i18next";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { z } from "zod";
 
-import { resendVerification } from "../api/auth";
-import {
-  getErrorMessage,
-  isErrorResponse,
-  isSuccessResponse,
-} from "../utils/api-helpers";
+import { useResendVerification } from "../hooks/useAuth";
 
 type ResendForm = z.infer<ReturnType<typeof createResendSchema>>;
 
@@ -36,7 +31,7 @@ export default function ResendVerificationPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<ResendForm>({
     resolver: zodResolver(resendSchema),
     defaultValues: {
@@ -44,26 +39,26 @@ export default function ResendVerificationPage() {
     },
   });
 
-  const onSubmit = async (data: ResendForm) => {
-    try {
-      setError("");
-      const response = await resendVerification(data);
+  const { mutate: resendVerificationFn, isPending: isSubmitting } =
+    useResendVerification();
 
-      if (isSuccessResponse(response)) {
+  const onSubmit = (data: ResendForm) => {
+    setError("");
+    resendVerificationFn(data, {
+      onSuccess: () => {
         setSuccess(true);
         setTimeout(() => {
           navigate("/login");
         }, 3000);
-      } else if (isErrorResponse(response)) {
-        setError(getErrorMessage(response));
-      }
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError(t("errors.resendVerificationFailed"));
-      }
-    }
+      },
+      onError: (err: unknown) => {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError(t("errors.resendVerificationFailed"));
+        }
+      },
+    });
   };
 
   if (success) {

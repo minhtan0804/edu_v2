@@ -4,6 +4,9 @@ import { useTranslation } from "react-i18next";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { Button } from "@/components/ui";
+import { Typography } from "@/components/ui";
+import { Card, CardContent } from "@/components/ui";
 import { PATHS } from "@/constants/common";
 
 export default function CheckEmailPage() {
@@ -40,9 +43,9 @@ export default function CheckEmailPage() {
             <div className="w-8 h-8 sm:w-10 sm:h-10 bg-primary-500 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-lg sm:text-xl">E</span>
             </div>
-            <span className="text-lg sm:text-xl font-bold text-neutral-900">
+            <Typography variant="h6" className="text-lg sm:text-xl">
               {t("common.appName")}
-            </span>
+            </Typography>
           </div>
 
           {/* Right side: Language Switcher */}
@@ -63,64 +66,64 @@ export default function CheckEmailPage() {
           </div>
 
           {/* Title */}
-          <h1 className="text-3xl sm:text-4xl font-bold text-neutral-900 mb-4">
+          <Typography variant="h1" className="mb-4">
             {t("auth.checkEmail.title")}
-          </h1>
+          </Typography>
 
           {/* Description */}
-          <p className="text-base text-neutral-600 mb-2">
+          <Typography variant="p" className="mb-2">
             {t("auth.checkEmail.description")}
-          </p>
+          </Typography>
 
           {/* Email display */}
           {email && (
-            <p className="text-lg font-semibold text-primary-600 mb-6">
+            <Typography variant="large" className="text-primary-600 mb-6">
               {email}
-            </p>
+            </Typography>
           )}
 
           {/* Instructions */}
-          <div className="bg-neutral-50 rounded-lg p-6 mb-6 text-left">
-            <p className="text-sm text-neutral-700 mb-2">
-              {t("auth.checkEmail.instructions")}
-            </p>
-            <ul className="list-disc list-inside text-sm text-neutral-600 space-y-1">
-              <li>{t("auth.checkEmail.step1")}</li>
-              <li>{t("auth.checkEmail.step2")}</li>
-              <li>{t("auth.checkEmail.step3")}</li>
-            </ul>
-          </div>
+          <Card className="mb-6 text-left">
+            <CardContent className="p-6">
+              <Typography variant="small" className="mb-2">
+                {t("auth.checkEmail.instructions")}
+              </Typography>
+              <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
+                <li>{t("auth.checkEmail.step1")}</li>
+                <li>{t("auth.checkEmail.step2")}</li>
+                <li>{t("auth.checkEmail.step3")}</li>
+              </ul>
+            </CardContent>
+          </Card>
 
           {/* Actions */}
           <div className="space-y-4">
             {/* Resend Verification Button */}
             {email && (
-              <button
+              <Button
                 onClick={handleResendVerification}
-                className="w-full bg-primary-500 hover:bg-primary-600 text-white font-medium py-3 px-4 rounded-lg transition-colors"
+                className="w-full"
+                size="lg"
               >
                 {t("auth.checkEmail.resendButton")}
-              </button>
+              </Button>
             )}
 
             {/* Login Button */}
-            <Link
-              to={PATHS.LOGIN}
-              className="block w-full bg-primary-500 hover:bg-primary-600 text-white font-medium py-3 px-4 rounded-lg transition-colors text-center"
-            >
-              {t("auth.checkEmail.loginLink")}
-            </Link>
+            <Button asChild variant="outline" className="w-full" size="lg">
+              <Link to={PATHS.LOGIN}>{t("auth.checkEmail.loginLink")}</Link>
+            </Button>
           </div>
         </div>
       </main>
 
       {/* Footer */}
       <footer className="w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-neutral-500">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-sm text-muted-foreground">
           <span>{t("common.copyright")}</span>
           <Link
             to="/privacy-policy"
-            className="hover:text-neutral-700 transition-colors"
+            className="hover:text-foreground transition-colors"
           >
             {t("common.privacyPolicy")}
           </Link>
@@ -129,7 +132,3 @@ export default function CheckEmailPage() {
     </div>
   );
 }
-
-
-
-

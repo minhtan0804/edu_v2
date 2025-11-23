@@ -1,17 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
 import { CheckCircle, Loader2 } from "lucide-react";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import type { AxiosError } from "axios";
 
-import { verifyEmail } from "../api/auth";
+import { useVerifyEmail } from "../hooks/useAuth";
 import type { ApiResponse } from "../interfaces/common";
-import {
-  getErrorMessage,
-  isErrorResponse,
-  isSuccessResponse,
-} from "../utils/api-helpers";
+import { getErrorMessage, isErrorResponse } from "../utils/api-helpers";
 
 export default function VerifyEmailPage() {
   const { t } = useTranslation();
@@ -19,25 +14,8 @@ export default function VerifyEmailPage() {
   const navigate = useNavigate();
   const token = searchParams.get("token");
 
-  // Use React Query to handle verify email API call
-  const {
-    data: response,
-    isLoading,
-    isError,
-    error,
-  } = useQuery({
-    queryKey: ["verifyEmail", token],
-    queryFn: () => {
-      if (!token) {
-        throw new Error(t("auth.verifyEmail.invalidTokenMessage"));
-      }
-      return verifyEmail(token);
-    },
-    enabled: !!token, // Only run query if token exists
-    retry: false, // Don't retry on failure
-    staleTime: Infinity, // Don't refetch if already fetched
-    gcTime: Infinity, // Keep in cache forever (since token can only be used once)
-  });
+  // Use React Query hook to handle verify email API call
+  const { data: message, isLoading, isError, error } = useVerifyEmail(token);
 
   // Handle redirects based on query state
   useEffect(() => {
@@ -51,7 +29,7 @@ export default function VerifyEmailPage() {
     }
 
     // If query is successful
-    if (response && isSuccessResponse(response)) {
+    if (message) {
       // Redirect to login after 3 seconds
       const timer = setTimeout(() => {
         navigate("/login", { replace: true });
@@ -62,7 +40,8 @@ export default function VerifyEmailPage() {
 
     // If query has error
     if (isError && error) {
-      let errorMessage = t("errors.verificationFailed") || "Verification failed";
+      let errorMessage =
+        t("errors.verificationFailed") || "Verification failed";
 
       // Extract error from AxiosError
       if (error && typeof error === "object" && "response" in error) {
@@ -83,7 +62,7 @@ export default function VerifyEmailPage() {
         state: { error: errorMessage },
       });
     }
-  }, [token, response, isError, error, navigate, t]);
+  }, [token, message, isError, error, navigate, t]);
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
@@ -116,7 +95,7 @@ export default function VerifyEmailPage() {
             </div>
           )}
 
-          {response && isSuccessResponse(response) && (
+          {message && (
             <div>
               <div className="w-16 h-16 bg-success-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <CheckCircle className="w-8 h-8 text-success-600" />
@@ -125,14 +104,13 @@ export default function VerifyEmailPage() {
                 {t("auth.verifyEmail.success")}
               </h1>
               <p className="text-sm sm:text-base text-neutral-600 mb-6">
-                {response.data.message || t("auth.verifyEmail.successMessage")}
+                {message || t("auth.verifyEmail.successMessage")}
               </p>
               <p className="text-sm text-neutral-500">
                 {t("auth.verifyEmail.redirecting")}
               </p>
             </div>
           )}
-
         </div>
       </main>
 
