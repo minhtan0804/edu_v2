@@ -1,9 +1,10 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { Resend } from "resend";
 
 @Injectable()
 export class EmailService {
+  private readonly logger = new Logger(EmailService.name);
   private resend: Resend;
 
   constructor(private configService: ConfigService) {
@@ -72,22 +73,22 @@ export class EmailService {
       });
 
       if (error) {
-        console.error("Resend error:", error);
+        this.logger.error("Resend error:", error);
         // In development, log the verification URL instead of failing
         if (this.configService.get<string>("NODE_ENV") === "development") {
-          console.log("Verification URL:", verificationUrl);
+          this.logger.log("Verification URL:", verificationUrl);
           return true;
         }
         throw new Error(`Failed to send email: ${error.message}`);
       }
 
-      console.log("Email sent successfully:", data);
+      this.logger.log("Email sent successfully:", data);
       return true;
     } catch (error) {
-      console.error("Error sending email:", error);
+      this.logger.error("Error sending email:", error);
       // In development, log the verification URL instead of failing
       if (this.configService.get<string>("NODE_ENV") === "development") {
-        console.log("Verification URL:", verificationUrl);
+        this.logger.log("Verification URL:", verificationUrl);
         return true;
       }
       throw error;

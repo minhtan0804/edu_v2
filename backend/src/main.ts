@@ -1,6 +1,7 @@
-import { ValidationPipe } from "@nestjs/common";
+import { Logger, ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import * as cookieParser from "cookie-parser";
 
 import { AppModule } from "./app.module";
 import { HttpExceptionFilter } from "./common/filters/http-exception.filter";
@@ -8,6 +9,9 @@ import { TransformInterceptor } from "./common/interceptors/transform.intercepto
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  // Enable cookie parser
+  app.use(cookieParser());
 
   // Enable CORS
   app.enableCors({
@@ -71,11 +75,10 @@ async function bootstrap() {
   });
 
   const port = process.env.PORT || 3000;
+  const logger = new Logger("Bootstrap");
   await app.listen(port);
-  console.log(`🚀 Application is running on: http://localhost:${port}`);
-  console.log(
-    `📚 Swagger API Documentation: http://localhost:${port}/api-docs`
-  );
-  console.log(`🔗 API Base URL: http://localhost:${port}/api`);
+  logger.log(`🚀 Application is running on: http://localhost:${port}`);
+  logger.log(`📚 Swagger API Documentation: http://localhost:${port}/api-docs`);
+  logger.log(`🔗 API Base URL: http://localhost:${port}/api`);
 }
 bootstrap();

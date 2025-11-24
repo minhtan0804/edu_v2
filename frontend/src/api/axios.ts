@@ -26,6 +26,7 @@ const FEATURE_FLAGS = {
 let refreshTokenPromise: Promise<string> | false = false;
 
 const baseConfig: CreateAxiosDefaults = {
+  withCredentials: true, // Cho phép gửi cookie tự động
   baseURL: `${import.meta.env.VITE_API_URL || "http://localhost:3000"}/api`,
 
   headers: {
@@ -88,33 +89,27 @@ instance.interceptors.response.use(
 
       if (!refreshTokenPromise) {
         // Start a new refresh token request
-        const refreshToken = useAuthStore.getState().getRefreshToken();
-
-        if (refreshToken) {
-          refreshTokenPromise = instanceWithoutInterceptors
-            .post<RefreshTokenResponse>("/auth/refresh", { refreshToken })
-            .then(async (response) => {
-              await useAuthStore.getState().setCredentials({
-                accessToken: response.data.accessToken,
-                refreshToken: response.data.refreshToken,
-                expiresIn: response.data.expiresIn,
-                refreshExpiresIn: response.data.refreshExpiresIn,
-              });
-              return response.data.accessToken;
-            })
-            .catch((err) => {
-              useAuthStore.getState().removeCredentials();
-              window.location.href = "/login";
-              return Promise.reject(err);
-            })
-            .finally(() => {
-              refreshTokenPromise = false; // Reset after completion
+        // Refresh token được gửi tự động qua cookie, không cần gửi trong body
+        refreshTokenPromise = instanceWithoutInterceptors
+          .post<RefreshTokenResponse>("/auth/refresh", {}) // Body rỗng!
+          // Cookie sẽ được gửi tự động nhờ withCredentials: true
+          .then(async (response) => {
+            await useAuthStore.getState().setCredentials({
+              accessToken: response.data.accessToken,
+              refreshToken: response.data.refreshToken,
+              expiresIn: response.data.expiresIn,
+              refreshExpiresIn: response.data.refreshExpiresIn,
             });
-        } else {
-          useAuthStore.getState().removeCredentials();
-          window.location.href = "/login";
-          return Promise.reject(error);
-        }
+            return response.data.accessToken;
+          })
+          .catch((err) => {
+            useAuthStore.getState().removeCredentials();
+            window.location.href = "/login";
+            return Promise.reject(err);
+          })
+          .finally(() => {
+            refreshTokenPromise = false; // Reset after completion
+          });
       }
 
       // Wait for the refresh token request to complete

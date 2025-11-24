@@ -7,14 +7,16 @@ import {
   Request,
   UseGuards,
 } from "@nestjs/common";
+import { ApiBearerAuth } from "@nestjs/swagger";
 
-import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
 import { Roles } from "../auth/decorators/roles.decorator";
+import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
 import { RolesGuard } from "../auth/guards/roles.guard";
-import { InstructorService } from "./instructor.service";
 import { SubmitVerificationDto } from "./dto/submit-verification.dto";
 import { VerifyInstructorDto } from "./dto/verify-instructor.dto";
+import { InstructorService } from "./instructor.service";
 
+@ApiBearerAuth("JWT-auth")
 @Controller("instructor")
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class InstructorController {
@@ -56,4 +58,3 @@ export class InstructorController {
     );
   }
 }
-

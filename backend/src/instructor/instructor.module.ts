@@ -11,4 +11,3 @@ import { InstructorService } from "./instructor.service";
   exports: [InstructorService],
 })
 export class InstructorModule {}
-

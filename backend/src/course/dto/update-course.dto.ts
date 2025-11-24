@@ -1,10 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import {
-  IsNumber,
-  IsOptional,
-  IsString,
-  Min,
-} from "class-validator";
+import { IsNumber, IsOptional, IsString, Min } from "class-validator";
 
 export class UpdateCourseDto {
   @ApiProperty({
@@ -62,4 +57,3 @@ export class UpdateCourseDto {
   @IsString()
   categoryId?: string;
 }
-

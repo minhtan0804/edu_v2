@@ -5,12 +5,10 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import type { TFunction } from "i18next";
 import { Edit, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { z } from "zod";
 
 import ConfirmModal from "@/components/ConfirmModal";
 import {
@@ -36,22 +34,10 @@ import {
   useUpdateCategory,
 } from "@/hooks/useCategories";
 import type { Category } from "@/interfaces/category";
-
-function createCategorySchema(t: TFunction<"translation", undefined>) {
-  return z.object({
-    name: z.string().min(1, t("validation.required") || "Required"),
-    slug: z
-      .string()
-      .min(1, t("validation.required") || "Required")
-      .regex(
-        /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
-        t("validation.slugInvalid") || "Invalid slug format"
-      ),
-    description: z.string().optional(),
-  });
-}
-
-type CategoryForm = z.infer<ReturnType<typeof createCategorySchema>>;
+import {
+  type CategoryForm,
+  createCategorySchema,
+} from "@/schemas/admin.schema";
 
 export default function AdminCategoriesPage() {
   const { t } = useTranslation();
@@ -62,7 +48,7 @@ export default function AdminCategoriesPage() {
     category: Category | null;
   }>({ isOpen: false, category: null });
 
-  const schema = createCategorySchema(t);
+  const schema = createCategorySchema(t as any);
   const {
     register,
     handleSubmit,
@@ -194,6 +180,7 @@ export default function AdminCategoriesPage() {
 
   // Note: React Compiler warning about useReactTable is expected and safe to ignore.
   // TanStack Table handles its own memoization internally and this warning doesn't affect functionality.
+  // eslint-disable-next-line react-hooks/incompatible-library
   const table = useReactTable({
     data: categories,
     columns,

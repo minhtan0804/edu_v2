@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Injectable,
+  Logger,
   UnauthorizedException,
 } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
@@ -24,6 +25,8 @@ import { RegisterDto } from "./dto/register.dto";
 
 @Injectable()
 export class AuthService {
+  private readonly logger = new Logger(AuthService.name);
+
   constructor(
     private prisma: PrismaService,
     private jwtService: JwtService,
@@ -79,7 +82,7 @@ export class AuthService {
         verificationToken
       );
     } catch (error) {
-      console.error("Failed to send verification email:", error);
+      this.logger.error("Failed to send verification email:", error);
       // Don't fail registration if email fails, but log it
     }
 
@@ -122,7 +125,7 @@ export class AuthService {
 
     const user = await this.validateUser(email, password);
 
-    const tokens = await this.generateTokens(user.id, user.email);
+    const tokens = await this.generateTokens(user.id, user.email, user.role);
 
     return {
       user: {
@@ -161,8 +164,18 @@ export class AuthService {
     return this.parseExpiresIn(expiresIn);
   }
 
-  private async generateTokens(userId: string, email: string) {
-    const payload = { sub: userId, email };
+  private async generateTokens(userId: string, email: string, role?: string) {
+    // Get user role if not provided
+    let userRole = role;
+    if (!userRole) {
+      const user = await this.prisma.user.findUnique({
+        where: { id: userId },
+        select: { role: true },
+      });
+      userRole = user?.role || "USER";
+    }
+
+    const payload = { sub: userId, email, role: userRole };
 
     const jwtExpiresIn =
       this.configService.get<string>("JWT_EXPIRES_IN") || "1d";
@@ -183,10 +196,15 @@ export class AuthService {
       expiresIn: jwtExpiresIn as any,
     });
 
+    const refreshSecret = this.configService.get<string>("JWT_REFRESH_SECRET");
+    if (!refreshSecret) {
+      throw new Error(
+        "JWT_REFRESH_SECRET is required but not configured. Please set it in your environment variables."
+      );
+    }
+
     const refreshToken = this.jwtService.sign(payload, {
-      secret:
-        this.configService.get<string>("JWT_REFRESH_SECRET") ||
-        "default-refresh-secret",
+      secret: refreshSecret,
       expiresIn: refreshExpiresIn as any,
     });
 
@@ -233,10 +251,16 @@ export class AuthService {
   async refreshToken(refreshToken: string) {
     try {
       // Verify refresh token with refresh secret
+      const refreshSecret =
+        this.configService.get<string>("JWT_REFRESH_SECRET");
+      if (!refreshSecret) {
+        throw new Error(
+          "JWT_REFRESH_SECRET is required but not configured. Please set it in your environment variables."
+        );
+      }
+
       const payload = this.jwtService.verify(refreshToken, {
-        secret:
-          this.configService.get<string>("JWT_REFRESH_SECRET") ||
-          "default-refresh-secret",
+        secret: refreshSecret,
       });
 
       // Get user from database
@@ -253,8 +277,22 @@ export class AuthService {
         throw new UnauthorizedException("User not found");
       }
 
-      // Generate new tokens
-      const tokens = await this.generateTokens(user.id, user.email);
+      // Get user role from database
+      const userWithRole = await this.prisma.user.findUnique({
+        where: { id: payload.sub },
+        select: { role: true },
+      });
+
+      if (!userWithRole) {
+        throw new UnauthorizedException("User not found");
+      }
+
+      // Generate new tokens with role
+      const tokens = await this.generateTokens(
+        user.id,
+        user.email,
+        userWithRole.role
+      );
 
       return {
         ...tokens,
@@ -348,7 +386,7 @@ export class AuthService {
         message: "Verification email has been resent. Please check your inbox.",
       };
     } catch (error) {
-      console.error("Failed to send verification email:", error);
+      this.logger.error("Failed to send verification email:", error);
       throw new BadRequestException(
         "Unable to send email. Please try again later."
       );

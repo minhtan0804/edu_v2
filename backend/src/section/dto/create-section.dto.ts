@@ -28,4 +28,3 @@ export class CreateSectionDto {
   @IsString()
   courseId: string;
 }
-

@@ -8,14 +8,16 @@ import {
   Put,
   UseGuards,
 } from "@nestjs/common";
+import { ApiBearerAuth } from "@nestjs/swagger";
 
-import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
 import { Roles } from "../auth/decorators/roles.decorator";
+import { JwtAuthGuard } from "../auth/guards/jwt-auth.guard";
 import { RolesGuard } from "../auth/guards/roles.guard";
 import { CategoryService } from "./category.service";
 import { CreateCategoryDto } from "./dto/create-category.dto";
 import { UpdateCategoryDto } from "./dto/update-category.dto";
 
+@ApiBearerAuth("JWT-auth")
 @Controller("categories")
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class CategoryController {
@@ -52,4 +54,3 @@ export class CategoryController {
     return this.categoryService.remove(id);
   }
 }
-

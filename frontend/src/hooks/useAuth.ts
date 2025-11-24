@@ -31,17 +31,13 @@ const loginFetcher = async (
   payload: LoginRequest
 ): Promise<{
   accessToken: string;
-  refreshToken: string;
   expiresIn: number;
-  refreshExpiresIn: number;
 }> => {
   const response = await loginApi(payload);
   if (isSuccessResponse(response)) {
     return {
       accessToken: response.data.accessToken,
-      refreshToken: response.data.refreshToken,
       expiresIn: response.data.expiresIn,
-      refreshExpiresIn: response.data.refreshExpiresIn,
     };
   }
   throw new Error(getErrorMessage(response));
@@ -110,12 +106,7 @@ export const useLogin = () => {
   return useMutation({
     mutationFn: loginFetcher,
     onSuccess: async (data) => {
-      await login(
-        data.accessToken,
-        data.refreshToken,
-        data.expiresIn,
-        data.refreshExpiresIn
-      );
+      await login(data.accessToken, data.expiresIn);
       toast.success(t("auth.login.success") || "Login successful!");
       navigate(PATHS.HOME);
     },

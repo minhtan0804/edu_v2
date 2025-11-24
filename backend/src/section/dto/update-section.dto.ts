@@ -21,4 +21,3 @@ export class UpdateSectionDto {
   @Min(0)
   position?: number;
 }
-

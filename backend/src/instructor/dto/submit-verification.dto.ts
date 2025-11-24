@@ -21,4 +21,3 @@ export class SubmitVerificationDto {
   @IsString()
   certificates?: string;
 }
-

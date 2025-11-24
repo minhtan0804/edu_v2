@@ -1,31 +1,20 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { TFunction } from "i18next";
 import { Lock, Mail, User } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { z } from "zod";
 
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { Button, Input, Typography } from "@/components/ui";
 import { PATHS } from "@/constants/common";
 import { useRegister } from "@/hooks/useAuth";
+import { createRegisterSchema, type RegisterForm } from "@/schemas/auth.schema";
 import { getErrorMessage } from "@/utils/api-helpers";
-
-type RegisterForm = z.infer<ReturnType<typeof createRegisterSchema>>;
-
-function createRegisterSchema(t: TFunction<"translation", undefined>) {
-  return z.object({
-    email: z.string().email(t("validation.emailInvalid")),
-    password: z.string().min(6, t("validation.passwordMin")),
-    fullName: z.string().optional(),
-  });
-}
 
 export default function RegisterPage() {
   const { t } = useTranslation();
-  const registerSchema = createRegisterSchema(t);
+  const registerSchema = createRegisterSchema(t as any);
   const {
     register,
     handleSubmit,

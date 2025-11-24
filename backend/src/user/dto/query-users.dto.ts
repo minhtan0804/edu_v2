@@ -1,8 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
+import { UserRole } from "@prisma/client";
 import { Type } from "class-transformer";
 import { IsEnum, IsInt, IsOptional, IsString, Min } from "class-validator";
-
-import { UserRole } from "@prisma/client";
 
 export class QueryUsersDto {
   @ApiProperty({
@@ -47,4 +46,3 @@ export class QueryUsersDto {
   @IsEnum(UserRole)
   role?: UserRole;
 }
-

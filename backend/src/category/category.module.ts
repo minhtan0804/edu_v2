@@ -11,4 +11,3 @@ import { CategoryService } from "./category.service";
   exports: [CategoryService],
 })
 export class CategoryModule {}
-

@@ -7,17 +7,24 @@ import {
   Post,
   Query,
   Request,
+  Res,
   UnauthorizedException,
   UseGuards,
 } from "@nestjs/common";
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from "@nestjs/swagger";
+import { Response } from "express";
 
 import { AuthService } from "./auth.service";
-import { JwtAuthGuard } from "./guards/jwt-auth.guard";
 import { LoginDto } from "./dto/login.dto";
 import { RefreshTokenDto } from "./dto/refresh-token.dto";
 import { RegisterDto } from "./dto/register.dto";
 import { ResendVerificationDto } from "./dto/resend-verification.dto";
+import { JwtAuthGuard } from "./guards/jwt-auth.guard";
 
 @ApiTags("auth")
 @Controller("auth")
@@ -66,8 +73,22 @@ export class AuthController {
     status: 401,
     description: "Invalid credentials",
   })
-  async login(@Body() loginDto: LoginDto) {
-    return this.authService.login(loginDto);
+  async login(
+    @Body() loginDto: LoginDto,
+    @Res({ passthrough: true }) res: Response
+  ) {
+    const result = await this.authService.login(loginDto);
+    const isProduction = process.env.NODE_ENV === "production";
+
+    res.cookie("refreshToken", result.refreshToken, {
+      httpOnly: true, // Không thể truy cập từ JavaScript
+      secure: isProduction, // Chỉ gửi qua HTTPS trong production
+      sameSite: isProduction ? "strict" : "lax",
+      maxAge: result.refreshExpiresIn * 1000,
+      path: "/",
+    });
+
+    return result;
   }
 
   @Post("refresh")
@@ -129,7 +150,7 @@ export class AuthController {
 
   @Get("me")
   @UseGuards(JwtAuthGuard)
-  @ApiBearerAuth()
+  @ApiBearerAuth("JWT-auth")
   @ApiOperation({ summary: "Get current user profile" })
   @ApiResponse({
     status: 200,

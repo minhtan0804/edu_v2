@@ -11,4 +11,3 @@ import { CourseService } from "./course.service";
   exports: [CourseService],
 })
 export class CourseModule {}
-

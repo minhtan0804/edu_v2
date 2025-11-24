@@ -40,6 +40,7 @@ model User {
   progress               UserProgress[]
   instructorVerification InstructorVerification?
 
+  @@index([fullName])
   @@map("users")
 }
 
@@ -142,7 +143,7 @@ model Order {
   createdAt DateTime    @default(now()) @map("created_at")
   updatedAt DateTime    @updatedAt @map("updated_at")
 
-  user  User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user  User        @relation(fields: [userId], references: [id], onDelete: Restrict)
   items OrderItem[]
 
   @@map("orders")
@@ -155,8 +156,8 @@ model OrderItem {
   price     Decimal  @db.Decimal(10, 2)
   createdAt DateTime @default(now()) @map("created_at")
 
-  order  Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  course Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  order  Order  @relation(fields: [orderId], references: [id], onDelete: Restrict)
+  course Course @relation(fields: [courseId], references: [id], onDelete: Restrict)
 
   @@map("order_items")
 }

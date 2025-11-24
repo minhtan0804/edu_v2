@@ -1,4 +1,4 @@
-import { Controller, Get } from "@nestjs/common";
+import { Controller, Get, Logger } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 
 import { PrismaService } from "./prisma/prisma.service";
@@ -6,6 +6,8 @@ import { PrismaService } from "./prisma/prisma.service";
 @ApiTags("health")
 @Controller()
 export class AppController {
+  private readonly logger = new Logger(AppController.name);
+
   constructor(private readonly prisma: PrismaService) {}
 
   @Get("health")
@@ -38,12 +40,12 @@ export class AppController {
     },
   })
   async health() {
-    console.log("Health check start");
+    this.logger.log("Health check start");
     try {
       // Check database connection
       await this.prisma.$queryRaw`SELECT 1`;
 
-      console.log("Health check end successfully");
+      this.logger.log("Health check end successfully");
 
       return {
         status: "ok",
@@ -53,7 +55,7 @@ export class AppController {
         environment: process.env.NODE_ENV || "development",
       };
     } catch (error) {
-      console.log("Health check end with error", error);
+      this.logger.error("Health check end with error", error);
 
       return {
         status: "error",

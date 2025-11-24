@@ -6,6 +6,7 @@ import { AppController } from "./app.controller";
 import { AuthModule } from "./auth/auth.module";
 import { CleanupUnverifiedUsersTask } from "./auth/tasks/cleanup-unverified-users.task";
 import { CategoryModule } from "./category/category.module";
+import { envValidationSchema } from "./config/env.validation";
 import { CourseModule } from "./course/course.module";
 import { InstructorModule } from "./instructor/instructor.module";
 import { LessonModule } from "./lesson/lesson.module";
@@ -18,6 +19,11 @@ import { UserModule } from "./user/user.module";
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ".env",
+      validationSchema: envValidationSchema,
+      validationOptions: {
+        allowUnknown: true,
+        abortEarly: false,
+      },
     }),
     ScheduleModule.forRoot(),
     PrismaModule,

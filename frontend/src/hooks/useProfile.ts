@@ -5,7 +5,11 @@ import { QUERY_KEYS } from "@/constants/queryKeys";
 import { useAuthStore } from "@/store/authStore";
 import { isSuccessResponse } from "@/utils/api-helpers";
 
-export function useProfile() {
+interface UseProfileOptions {
+  enabled?: boolean;
+}
+
+export function useProfile(options?: UseProfileOptions) {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const user = useAuthStore((state) => state.user);
 
@@ -19,7 +23,7 @@ export function useProfile() {
       }
       throw new Error(res.error.message);
     },
-    enabled: isAuthenticated() && !user, // Only fetch if authenticated but no user
+    enabled: options?.enabled ?? (isAuthenticated() && !user), // Only fetch if authenticated but no user, or if explicitly enabled
     staleTime: 5 * 60 * 1000, // Consider data fresh for 5 minutes
     gcTime: 10 * 60 * 1000, // Keep in cache for 10 minutes
     retry: 1,

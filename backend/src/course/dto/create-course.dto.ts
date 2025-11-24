@@ -60,4 +60,3 @@ export class CreateCourseDto {
   @IsString()
   categoryId: string;
 }
-

@@ -1,12 +1,14 @@
 import "react-toastify/dist/ReactToastify.css";
 import "./index.css";
 
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
+import { PATHS } from "./constants/common";
 import NotFound from "./pages/NotFound";
 import { protectedRouter, publicRouter } from "./router";
+import { useAuthStore } from "./store/authStore";
 
 function LoadingFallback() {
   return (
@@ -25,6 +27,21 @@ function App() {
       element: <NotFound />,
     },
   ]);
+
+  // Setup logout event listener
+  useEffect(() => {
+    const logout = useAuthStore.getState().logout;
+    const handleLogout = () => {
+      logout();
+      // Use window.location for navigation outside router context
+      window.location.href = PATHS.LOGIN;
+    };
+
+    window.addEventListener("auth:logout", handleLogout);
+    return () => {
+      window.removeEventListener("auth:logout", handleLogout);
+    };
+  }, []);
 
   return (
     <>

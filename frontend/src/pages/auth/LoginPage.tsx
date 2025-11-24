@@ -1,29 +1,19 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { TFunction } from "i18next";
 import { Lock, Mail } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { z } from "zod";
 
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { Button, Input } from "@/components/ui";
 import { Typography } from "@/components/ui";
 import { PATHS } from "@/constants/common";
 import { useLogin } from "@/hooks/useAuth";
-
-type LoginForm = z.infer<ReturnType<typeof createLoginSchema>>;
-
-function createLoginSchema(t: TFunction<"translation", undefined>) {
-  return z.object({
-    email: z.string().email(t("validation.emailInvalid")),
-    password: z.string().min(6, t("validation.passwordMin")),
-  });
-}
+import { createLoginSchema, type LoginForm } from "@/schemas/auth.schema";
 
 export default function LoginPage() {
   const { t } = useTranslation();
-  const loginSchema = createLoginSchema(t);
+  const loginSchema = createLoginSchema(t as any);
   const {
     register,
     handleSubmit,

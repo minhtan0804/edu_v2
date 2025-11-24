@@ -1,11 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { TFunction } from "i18next";
 import { Edit, Plus, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
-import { z } from "zod";
 
 import ConfirmModal from "@/components/ConfirmModal";
 import {
@@ -37,28 +35,7 @@ import {
   useUpdateCourse,
 } from "@/hooks/useCourses";
 import type { Course } from "@/interfaces/course";
-
-function createCourseSchema(t: TFunction<"translation", undefined>) {
-  return z.object({
-    title: z.string().min(1, t("validation.required") || "Required"),
-    slug: z
-      .string()
-      .min(1, t("validation.required") || "Required")
-      .regex(
-        /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
-        t("validation.slugInvalid") || "Invalid slug format"
-      ),
-    description: z.string().optional(),
-    thumbnail: z.string().url().optional().or(z.literal("")),
-    price: z.preprocess(
-      (val) => (val === "" || val === undefined ? undefined : Number(val)),
-      z.number().min(0).optional()
-    ),
-    categoryId: z.string().min(1, t("validation.required") || "Required"),
-  });
-}
-
-type CourseForm = z.infer<ReturnType<typeof createCourseSchema>>;
+import { type CourseForm, createCourseSchema } from "@/schemas/admin.schema";
 
 export default function AdminCoursesPage() {
   const { t } = useTranslation();
@@ -69,7 +46,7 @@ export default function AdminCoursesPage() {
     course: Course | null;
   }>({ isOpen: false, course: null });
 
-  const schema = createCourseSchema(t);
+  const schema = createCourseSchema(t as any);
   const {
     register,
     handleSubmit,
@@ -326,6 +303,7 @@ export default function AdminCoursesPage() {
                 {t("admin.courses.form.category") || "Category"} *
               </label>
               <Select
+                // eslint-disable-next-line react-hooks/incompatible-library
                 value={watch("categoryId") || ""}
                 onValueChange={(value) => setValue("categoryId", value)}
                 disabled={categoriesLoading}

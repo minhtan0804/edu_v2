@@ -18,9 +18,16 @@ import { LocalStrategy } from "./strategies/local.strategy";
     JwtModule.registerAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService): JwtModuleOptions => {
+        const jwtSecret = config.get<string>("JWT_SECRET");
+        if (!jwtSecret) {
+          throw new Error(
+            "JWT_SECRET is required but not configured. Please set it in your environment variables."
+          );
+        }
+
         const expiresIn = config.get<string>("JWT_EXPIRES_IN") || "1d";
         return {
-          secret: config.get<string>("JWT_SECRET") || "default-secret",
+          secret: jwtSecret,
           signOptions: {
             expiresIn:
               expiresIn as JwtModuleOptions["signOptions"]["expiresIn"],

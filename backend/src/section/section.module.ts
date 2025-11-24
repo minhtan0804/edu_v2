@@ -11,4 +11,3 @@ import { SectionService } from "./section.service";
   exports: [SectionService],
 })
 export class SectionModule {}
-

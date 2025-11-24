@@ -6,65 +6,48 @@ import dayjs from "@/lib/dayjs";
 
 interface AuthState {
   accessToken: string | null;
-  refreshToken: string | null;
   user: User | null;
-  login: (
-    accessToken: string,
-    refreshToken: string,
-    expiresIn: number,
-    refreshExpiresIn: number
-  ) => Promise<void>;
+  login: (accessToken: string, expiresIn: number) => Promise<void>;
   logout: () => void;
   isAuthenticated: () => boolean;
   setCredentials: (data: {
     accessToken: string;
-    refreshToken: string;
     expiresIn: number;
-    refreshExpiresIn: number;
   }) => Promise<void>;
   removeCredentials: () => void;
   getAccessToken: () => string | null;
-  getRefreshToken: () => string | null;
   getUser: () => User | null;
   setUser: (user: User) => void;
 }
 
 export const useAuthStore = create<AuthState>()((set, get) => ({
   accessToken: null,
-  refreshToken: null,
   user: null,
 
-  login: async (accessToken, refreshToken, expiresIn, refreshExpiresIn) => {
-    // Calculate expiration dates
+  login: async (accessToken, expiresIn) => {
+    // Calculate expiration date
     const accessTokenExpires = dayjs().add(expiresIn, "second").toDate();
-    const refreshTokenExpires = dayjs()
-      .add(refreshExpiresIn, "second")
-      .toDate();
 
-    // Store tokens in cookies with expiration
+    // Store accessToken in cookie (non-HttpOnly for client-side access)
     Cookies.set("accessToken", accessToken, {
       expires: accessTokenExpires,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
     });
-    Cookies.set("refreshToken", refreshToken, {
-      expires: refreshTokenExpires,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-    });
 
-    // Update state with tokens
-    set({ accessToken, refreshToken });
+    // Update state with accessToken
+    // Note: refreshToken is now handled automatically by browser via HttpOnly cookie
+    set({ accessToken });
     // Note: User profile will be fetched automatically by useProfile hook in PrivateRoute
   },
 
   logout: () => {
-    // Remove from cookies
+    // Remove accessToken from cookies
     Cookies.remove("accessToken");
-    Cookies.remove("refreshToken");
+    // Note: refreshToken cookie will be cleared by backend on logout endpoint if needed
 
     // Clear state
-    set({ accessToken: null, refreshToken: null, user: null });
+    set({ accessToken: null, user: null });
   },
 
   isAuthenticated: () => {
@@ -75,49 +58,36 @@ export const useAuthStore = create<AuthState>()((set, get) => ({
   },
 
   setCredentials: async (data) => {
-    // Calculate expiration dates
+    // Calculate expiration date
     const accessTokenExpires = dayjs().add(data.expiresIn, "second").toDate();
-    const refreshTokenExpires = dayjs()
-      .add(data.refreshExpiresIn, "second")
-      .toDate();
 
-    // Store tokens in cookies with expiration
+    // Store accessToken in cookie
     Cookies.set("accessToken", data.accessToken, {
       expires: accessTokenExpires,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
     });
-    Cookies.set("refreshToken", data.refreshToken, {
-      expires: refreshTokenExpires,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-    });
 
-    // Update state with tokens
+    // Update state with accessToken
+    // Note: refreshToken is now handled automatically by browser via HttpOnly cookie
     set({
       accessToken: data.accessToken,
-      refreshToken: data.refreshToken,
     });
     // Note: User profile will be fetched automatically by useProfile hook in PrivateRoute
   },
 
   removeCredentials: () => {
-    // Remove from cookies
+    // Remove accessToken from cookies
     Cookies.remove("accessToken");
-    Cookies.remove("refreshToken");
+    // Note: refreshToken cookie will be cleared by backend on logout endpoint if needed
 
     // Clear state
-    set({ accessToken: null, refreshToken: null, user: null });
+    set({ accessToken: null, user: null });
   },
 
   getAccessToken: () => {
     // Always read from cookies for reliability
     return Cookies.get("accessToken") || null;
-  },
-
-  getRefreshToken: () => {
-    // Always read from cookies for reliability
-    return Cookies.get("refreshToken") || null;
   },
 
   getUser: () => {

@@ -9,4 +9,3 @@ export class VerifyInstructorDto {
   @IsBoolean()
   isVerified: boolean;
 }
-

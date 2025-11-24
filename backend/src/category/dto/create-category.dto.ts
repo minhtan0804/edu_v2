@@ -13,4 +13,3 @@ export class CreateCategoryDto {
   @IsString()
   description?: string;
 }
-
